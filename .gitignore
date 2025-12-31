@@ -1,3 +1,5 @@
+logs
+*.log
+.vscode
+
 node_modules
-useless
-u
