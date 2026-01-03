@@ -17,5 +17,10 @@
   },
   "dependencies": {
     "express": "5.2.1"
+  },
+  "engines": {
+    "node": ">=20.6.0",
+    "bun": ">=1.0.0",
+    "deno": ">=1.37.0"
   }
 }
