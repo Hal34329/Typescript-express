@@ -8,7 +8,7 @@ const PORT = 3000;
 
 app.get("/ping", (_req, res) => {
     console.log("Someone pinged here!! " + new Date().toLocaleDateString());
-    res.send("pong");
+    res.send("pong");    
 })
 
 app.use("/api/diaries", diaryRouter);
