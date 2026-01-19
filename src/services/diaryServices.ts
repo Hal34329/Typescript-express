@@ -1,5 +1,8 @@
-import diaryData from "./diaries.json" with { type: "json" }
+import type { DiaryEntry } from "../types.js";
+import diaryData from "./diaries.json" with { type: "json" };
 
-export const getEntries = () => diaryData
+const diaries: Array<DiaryEntry> = diaryData as Array<DiaryEntry>;
 
-export const addEntry = () => null
+export const getEntries = () => diaries;
+
+export const addEntry = () => null;
