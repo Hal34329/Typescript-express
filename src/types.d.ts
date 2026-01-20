@@ -9,5 +9,6 @@ export interface DiaryEntry {
     comment: string
 }
 
-export type NonSensitiveInfoDiaryEntry = Pick<DiaryEntry, "id" | "date" | "weather" | "visibility">
+// export type NonSensitiveInfoDiaryEntry = Pick<DiaryEntry, "id" | "date" | "weather" | "visibility"> Para tomar los campos que se quieren de la interfaz mencionada
+export type NonSensitiveInfoDiaryEntry = Omit<DiaryEntry, "comment">;
 
