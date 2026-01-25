@@ -9,12 +9,21 @@ export default defineConfig([
 		files: ["**/*.{js,mjs,cjs,ts,mts,cts}"], 
 		plugins: { 
 			js,
-			"@stylistic": stylistic
+			"@stylistic": stylistic,
 		}, 
 		languageOptions: { globals: globals.node }, 
 		rules: {
 			"no-unused-vars": "off",
-			"@typescript-eslint/no-unused-vars": "warn",
+			"@typescript-eslint/no-unused-vars": [
+				"warn", {
+					// "args": "all",
+					// "argsIgnorePattern": "^_",
+					// "caughtErrors": "all",
+					// "caughtErrorsIgnorePattern": "^_",
+					// "destructuredArrayIgnorePattern": "^_",
+					// "varsIgnorePattern": "^_",
+					"ignoreRestSiblings": true,
+				}],
 			"@typescript-eslint/no-explicit-any": "error",
 			// "no-console": "warn",
 			"@typescript-eslint/array-type": ["warn", { "default": "array" }],
@@ -24,7 +33,7 @@ export default defineConfig([
 			"@stylistic/semi": ["warn", "always"],
 			"@stylistic/object-curly-spacing": ["warn", "always"],
 			"@stylistic/comma-spacing": "warn",
-			// "@stylistic/comma-dangle": ["warn", "always"],
+			"@stylistic/comma-dangle": ["warn", "always-multiline"],
 		},
 		extends: [tseslint.configs.recommended], 
 	},
@@ -33,5 +42,5 @@ export default defineConfig([
     rules: {
       "@stylistic/indent": "off",
     },
-  }
+  },
 ]);
