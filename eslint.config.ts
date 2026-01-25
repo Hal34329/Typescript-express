@@ -17,11 +17,11 @@ export default defineConfig([
 			"@typescript-eslint/no-unused-vars": [
 				"warn", {
 					// "args": "all",
-					// "argsIgnorePattern": "^_",
+					"argsIgnorePattern": "^_",
 					// "caughtErrors": "all",
 					// "caughtErrorsIgnorePattern": "^_",
 					// "destructuredArrayIgnorePattern": "^_",
-					// "varsIgnorePattern": "^_",
+					"varsIgnorePattern": "^_",
 					"ignoreRestSiblings": true,
 				}],
 			"@typescript-eslint/no-explicit-any": "error",

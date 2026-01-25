@@ -7,16 +7,29 @@ router.get("/", (_req, res) => {
     res.send(diaryServices.getEntriesWithoutSensitiveInfo());
 });
 
+router.get("/full", (_req, res) => {
+    res.send(diaryServices.getEntries());
+});
+
 router.get("/:id", (req, res) => {
     const diary = diaryServices.findById(Number(req.params.id));
-    // res.send(diary?.comment);
     return (diary !== null)
         ? res.send(diary)
         : res.sendStatus(404);
 });
 
-router.post("/", (_req, res) => {
-    res.send("Saving a diary!");
+router.post("/", (req, res) => {
+    // res.send("Saving a diary!");
+    const { date, weather, visibility, comment } = req.body;
+
+    const newDiaryEntry = diaryServices.addEntry(
+        date,
+        weather,
+        visibility,
+        comment,
+    );
+
+    res.json(newDiaryEntry);
 });
 
 export default router;
