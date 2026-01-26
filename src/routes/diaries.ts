@@ -19,17 +19,24 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-    // res.send("Saving a diary!");
-    const { date, weather, visibility, comment } = req.body;
+    try {
+        // const { date, weather, visibility, comment } = req.body;
 
-    const newDiaryEntry = diaryServices.addEntry(
-        date,
-        weather,
-        visibility,
-        comment,
-    );
+        const newDiaryEntry = toNewDiaryEntry(req.body);
 
-    res.json(newDiaryEntry);
+        const addedDiaryEntry = diaryServices.addDiary(newDiaryEntry);
+
+        res.json(addedDiaryEntry);
+    } catch (e) {
+        if(e instanceof Error){
+            res.status(400).send(e.message);
+            res.status(400).send((e as Error).message);
+        }
+        else {
+            res.status(400).send("Unknown error");
+        }
+        // También podría pasarlo como res.status(400).send((e as Error).message); si estoy completamente seguro de que es un error
+    }
 });
 
 export default router;
