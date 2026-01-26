@@ -1,5 +1,6 @@
 import express  from "express";
 import * as diaryServices from "../services/diaryServices.js";
+import toNewDiaryEntry from "../utils.js";
 
 const router = express.Router();
 
@@ -20,8 +21,6 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
     try {
-        // const { date, weather, visibility, comment } = req.body;
-
         const newDiaryEntry = toNewDiaryEntry(req.body);
 
         const addedDiaryEntry = diaryServices.addDiary(newDiaryEntry);
@@ -35,7 +34,6 @@ router.post("/", (req, res) => {
         else {
             res.status(400).send("Unknown error");
         }
-        // También podría pasarlo como res.status(400).send((e as Error).message); si estoy completamente seguro de que es un error
     }
 });
 

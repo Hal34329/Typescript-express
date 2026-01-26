@@ -23,7 +23,6 @@ const parseDate = (dateFromRequest: unknown): string => {
 };
 
 const isWeather = (param: unknown): param is Weather => {
-    // return typeof param === "string" && WeatherValues.includes(param as Weather);
     return typeof param === "string" && (WeatherValues as readonly string[]).includes(param);
 };
 
@@ -35,7 +34,6 @@ const parseWeather = (weatherFromRequest: unknown): Weather => {
 };
 
 const isVisibility = (param: unknown): param is Visibility => {
-    // return typeof param === "string" && VisibilityValues.includes(param as Visibility);
     return typeof param === "string" && (VisibilityValues as readonly string[]).includes(param);
 };
 
@@ -54,10 +52,10 @@ const toNewDiaryEntry = (diary: unknown): NewDiaryEntry => {
     const dto = diary as NewDiaryEntry;
 
     const newEntry: NewDiaryEntry = {
-        comment: parseComment(dto.comment),
         date: parseDate(dto.date),
         weather: parseWeather(dto.weather),
         visibility: parseVisibility(dto.visibility),
+        comment: parseComment(dto.comment),
     };
 
     return newEntry;
