@@ -29,7 +29,7 @@ router.post("/", (req, res) => {
     } catch (e) {
         if(e instanceof Error){
             res.status(400).send(e.message);
-            res.status(400).send((e as Error).message);
+            // res.status(400).send((e as Error).message);
         }
         else {
             res.status(400).send("Unknown error");

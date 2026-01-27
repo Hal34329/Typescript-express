@@ -4,4 +4,5 @@ logs
 
 node_modules
 
-backup.json
+backup.jsonc
+*.env
