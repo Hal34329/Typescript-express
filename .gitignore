@@ -6,3 +6,5 @@ node_modules
 
 backup.jsonc
 *.env
+
+example.sql

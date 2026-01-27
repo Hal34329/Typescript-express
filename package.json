@@ -16,14 +16,20 @@
     "@eslint/js": "^9.39.2",
     "@stylistic/eslint-plugin": "^5.7.0",
     "@types/express": "^5.0.6",
+    "@types/pg": "^8.16.0",
+    "drizzle-kit": "^0.31.8",
     "eslint": "^9.39.2",
     "globals": "^17.0.0",
     "jiti": "^2.6.1",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.53.0"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.1",
     "express": "5.2.1",
+    "pg": "^8.17.2",
     "zod": "^4.3.6"
   },
   "engines": {
