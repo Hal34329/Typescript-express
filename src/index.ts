@@ -2,7 +2,7 @@ import express from "express";
 import diaryRouter from "./routes/diaries.js";
 
 const app = express();
-app.use(express.json()); // Middleware que transforma la req.body a un JSON
+app.use(express.json()); 
 
 const PORT = 3000;
 
