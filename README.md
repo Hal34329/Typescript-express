@@ -1,10 +1,10 @@
 # Diary API | Express + Drizzle + Postgres
 
 ## Tecnologías
-**Core:** Node.js & Express
-**Database:** PostgreSQL con Drizzle ORM
-**Validation:** Zod para esquemas y parseo de datos.
-**Tooling:** TypeScript, ESLint (Stylistic), Jiti.
+**Core:** Node.js & Express<br>
+**Database:** PostgreSQL con Drizzle ORM<br>
+**Validation:** Zod para esquemas y parseo de datos.<br>
+**Tooling:** TypeScript, ESLint (Stylistic), Jiti.<br>
 
 ## Arquitectura del Proyecto
 El proyecto sigue una estructura de capas para separar la lógica de negocio de la infraestructura:
@@ -40,10 +40,11 @@ pnpm seed
 ~~~
 
 ## Notas de Aprendizaje
-``ExactOptionalPropertyTypes``: Se implementó una lógica de limpieza de objetos para manejar valores undefined en peticiones PATCH.
-``Zod Schema Inference``: Uso de z.infer para mantener sincronizados los tipos de TypeScript con las validaciones de entrada.
-``jiti``: Solo se usa por el ``eslint.config.ts``, si se pasa a ``.js`` no es necesario utilizarlo.
-**ValidatedFields:** El parseo del ``req.body`` con el ``partialDiaryEntrySchema`` puede pasarse a ``utils.ts`` para mayor separación de responsabilidades.
+``ExactOptionalPropertyTypes``: Se implementó una lógica de limpieza de objetos para manejar valores undefined en peticiones PATCH.<br>
+``Zod Schema Inference``: Uso de z.infer para mantener sincronizados los tipos de TypeScript con las validaciones de entrada.<br>
+``jiti``: Solo se usa por el ``eslint.config.ts``, si se pasa a ``.js`` no es necesario utilizarlo.<br>
+``dotenv``: Se puede evitar usar ``dotenv`` para no usar dpendencias extra y sustituirlo por ``process.loadEnvFile()`` en el código o como flag ``--env-file=.env`` al ejecutar el script en versiones superiores a ``Node.js v24``.<br>
+**ValidatedFields:** El parseo del ``req.body`` con el ``partialDiaryEntrySchema`` puede pasarse a ``utils.ts`` para mayor separación de responsabilidades.<br>
 
 ## Endpoints de la API
 |**Método**|**Ruta**|**Descripción**|**Body (JSON) / Notas**|
