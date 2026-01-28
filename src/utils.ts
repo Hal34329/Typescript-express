@@ -1,4 +1,4 @@
-import { newDiarySchema, type NewDiaryEntry } from "./types.js";
+import { newDiarySchema, type NewDiaryEntry } from "@types";
 
 const toNewDiaryEntry = (diary: unknown): NewDiaryEntry => {
     return newDiarySchema.parse(diary);
