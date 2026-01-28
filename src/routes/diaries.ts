@@ -4,10 +4,6 @@ import toNewDiaryEntry from "../utils.js";
 
 const router = express.Router();
 
-// router.get("/", (_req, res) => {
-//     res.send(diaryServices.getEntriesWithoutSensitiveInfo());
-// });
-
 router.get("/", async (_req, res) => {
     const entries = await diaryServices.getEntriesWithoutSensitiveInfo();
     res.json(entries);
@@ -47,12 +43,27 @@ router.post("/", async (req, res) => {
         } else {
             errorMessage = "Unknown Error";
         }
-        // try {
-        //     errorMessage = e instanceof Error ? JSON.parse(e.message) : "Unknown Error";
-        // } catch {
-        //     errorMessage = e instanceof Error ? e.message : "Unknown Error";
-        // }
         res.status(400).send({ error:errorMessage });
+    }
+});
+
+// Nuevas rutas
+router.delete("/:id", async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        
+        if(isNaN(id))
+            return res.status(400).send({ error: "Invalid ID format" });
+
+        const deleted = await diaryServices.deleteEntry(id);
+
+        if(deleted)
+            return res.status(204).send();
+        else
+            return res.status(404).send({ error: "Entry Not Found" });
+    } catch (e: unknown) {
+        const errorMessage = e instanceof Error ? e.message : "Unknown Error";
+        return res.status(500).json({ error: errorMessage });
     }
 });
 
