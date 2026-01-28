@@ -11,6 +11,7 @@ export const diarySchema = z.object({
     comment: z.string(),
 });
 
+export const partialDiaryEntrySchema = diarySchema.partial().omit({ id:true });
 export const newDiarySchema = diarySchema.omit({ id: true });
 export const NonSensitiveInfoDiaryEntrySchema = diarySchema.omit({ comment: true });
 

@@ -34,13 +34,32 @@ export const getEntriesWithoutSensitiveInfo = async (): Promise<NonSensitiveInfo
 };
 
 export const addDiary = async (newDiaryEntry: NewDiaryEntry): Promise<DiaryEntry> => {
-    const [newEntry] = await db.insert(diaryEntries).values(newDiaryEntry).returning();
+    const [newEntry] = await db.insert(diaryEntries)
+        .values(newDiaryEntry)
+        .returning();
 
     return newEntry!;
 };
 
 // Nuevos servicios
 export const deleteEntry = async (id: number): Promise<boolean> => {
-    const result = await db.delete(diaryEntries).where(eq(diaryEntries.id, id)).returning();
+    const result = await db.delete(diaryEntries)
+        .where(eq(diaryEntries.id, id))
+        .returning();
     return result.length > 0;
+};
+
+export const updateEntry = async (id: number, fields: Partial<DiaryEntry>): Promise<DiaryEntry | undefined> => {
+    if(fields.comment) {
+        const [current] = await db.select({ c:diaryEntries.comment }).from(diaryEntries).where(eq(diaryEntries.id, id));
+        if(current){
+            fields.comment = `${current.c} | Update: ${fields.comment}`;
+        }
+    }
+
+    const [updated] = await db.update(diaryEntries)
+        .set(fields)
+        .where(eq(diaryEntries.id, id))
+        .returning();
+    return updated;
 };

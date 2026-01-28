@@ -1,6 +1,7 @@
 import express  from "express";
 import * as diaryServices from "../services/diaryServices.js";
 import toNewDiaryEntry from "../utils.js";
+import { partialDiaryEntrySchema } from "@types";
 
 const router = express.Router();
 
@@ -64,6 +65,31 @@ router.delete("/:id", async (req, res) => {
     } catch (e: unknown) {
         const errorMessage = e instanceof Error ? e.message : "Unknown Error";
         return res.status(500).json({ error: errorMessage });
+    }
+});
+
+router.patch("/:id", async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        if(isNaN(id)) 
+            return res.status(400).send({ error:"Invalid ID" });
+        
+        // const fieldsToUpdate = partialDiaryEntrySchema.parse(req.body);
+        const validatedFields = partialDiaryEntrySchema.parse(req.body);
+
+        const fieldsToUpdate = Object.fromEntries(
+            Object.entries(validatedFields).filter(([_, value]) => value !== undefined),
+        );
+
+        const updated = await diaryServices.updateEntry(id, fieldsToUpdate);
+
+        if(updated){
+            return res.json(updated);
+        } else {
+            return res.status(404).send({ error: "Entry Not Found" });
+        }
+    } catch {
+        return res.status(400).json({ error: "Update Failed" });
     }
 });
 
