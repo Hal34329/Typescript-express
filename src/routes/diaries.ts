@@ -74,7 +74,6 @@ router.patch("/:id", async (req, res) => {
         if(isNaN(id)) 
             return res.status(400).send({ error:"Invalid ID" });
         
-        // const fieldsToUpdate = partialDiaryEntrySchema.parse(req.body);
         const validatedFields = partialDiaryEntrySchema.parse(req.body);
 
         const fieldsToUpdate = Object.fromEntries(
