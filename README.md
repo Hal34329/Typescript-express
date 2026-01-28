@@ -40,11 +40,11 @@ pnpm seed
 ~~~
 
 ## Notas de Aprendizaje
-``ExactOptionalPropertyTypes``: Se implementó una lógica de limpieza de objetos para manejar valores undefined en peticiones PATCH.<br>
-``Zod Schema Inference``: Uso de z.infer para mantener sincronizados los tipos de TypeScript con las validaciones de entrada.<br>
-``jiti``: Solo se usa por el ``eslint.config.ts``, si se pasa a ``.js`` no es necesario utilizarlo.<br>
-``dotenv``: Se puede evitar usar ``dotenv`` para no usar dpendencias extra y sustituirlo por ``process.loadEnvFile()`` en el código o como flag ``--env-file=.env`` al ejecutar el script en versiones superiores a ``Node.js v24``.<br>
-**ValidatedFields:** El parseo del ``req.body`` con el ``partialDiaryEntrySchema`` puede pasarse a ``utils.ts`` para mayor separación de responsabilidades.<br>
+- ``ExactOptionalPropertyTypes``: Se implementó una lógica de limpieza de objetos para manejar valores undefined en peticiones PATCH.
+- ``Zod Schema Inference``: Uso de z.infer para mantener sincronizados los tipos de TypeScript con las validaciones de entrada.
+- ``jiti``: Solo se usa por el ``eslint.config.ts``, si se pasa a ``.js`` no es necesario utilizarlo.
+- ``dotenv``: Se puede evitar usar ``dotenv`` para no usar dpendencias extra y sustituirlo por ``process.loadEnvFile()`` en el código o como flag ``--env-file=.env`` al ejecutar el script en versiones superiores a ``Node.js v24``.
+- **ValidatedFields:** El parseo del ``req.body`` con el ``partialDiaryEntrySchema`` puede pasarse a ``utils.ts`` para mayor separación de responsabilidades.
 
 ## Endpoints de la API
 |**Método**|**Ruta**|**Descripción**|**Body (JSON) / Notas**|
