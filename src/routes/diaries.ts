@@ -35,11 +35,23 @@ router.post("/", async (req, res) => {
         res.json(addedDiaryEntry);
     } catch (e: unknown) {
         let errorMessage;
-        try {
-            errorMessage = e instanceof Error ? JSON.parse(e.message) : "Unknown Error";
-        } catch {
-            errorMessage = e instanceof Error ? e.message : "Unknown Error";
+        if(e instanceof Error) {
+            try {
+                const parsed = JSON.parse(e.message);
+                errorMessage = Array.isArray(parsed)
+                    ? parsed.map(err => ({ ...err, message: err.message.replace(/"/g, " ") }))
+                    : parsed;
+            } catch {
+                errorMessage = e.message;
+            }
+        } else {
+            errorMessage = "Unknown Error";
         }
+        // try {
+        //     errorMessage = e instanceof Error ? JSON.parse(e.message) : "Unknown Error";
+        // } catch {
+        //     errorMessage = e instanceof Error ? e.message : "Unknown Error";
+        // }
         res.status(400).send({ error:errorMessage });
     }
 });
