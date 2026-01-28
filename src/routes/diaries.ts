@@ -1,39 +1,95 @@
 import express  from "express";
 import * as diaryServices from "../services/diaryServices.js";
 import toNewDiaryEntry from "../utils.js";
+import { partialDiaryEntrySchema } from "@types";
 
 const router = express.Router();
 
-router.get("/", (_req, res) => {
-    res.send(diaryServices.getEntriesWithoutSensitiveInfo());
+router.get("/", async (_req, res) => {
+    const entries = await diaryServices.getEntriesWithoutSensitiveInfo();
+    res.json(entries);
 });
 
-router.get("/full", (_req, res) => {
-    res.send(diaryServices.getEntries());
+router.get("/full", async (_req, res) => {
+    try{
+        const entries = await diaryServices.getEntries();
+        res.json(entries);
+    } catch (e: unknown) {
+        const errorMessage = e instanceof Error ? e.message : "Unknown Error";
+        res.status(500).json({ error: errorMessage });
+    }
 });
 
-router.get("/:id", (req, res) => {
-    const diary = diaryServices.findById(Number(req.params.id));
-    return (diary !== null)
-        ? res.send(diary)
-        : res.sendStatus(404);
+router.get("/:id", async (req, res) => {
+    const diary = await diaryServices.findById(Number(req.params.id));
+    return (diary!==null) ? res.send(diary) : res.sendStatus(404);
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const newDiaryEntry = toNewDiaryEntry(req.body);
-
-        const addedDiaryEntry = diaryServices.addDiary(newDiaryEntry);
-
+        const addedDiaryEntry = await diaryServices.addDiary(newDiaryEntry);
         res.json(addedDiaryEntry);
-    } catch (e) {
-        if(e instanceof Error){
-            res.status(400).send(e.message);
-            res.status(400).send((e as Error).message);
+    } catch (e: unknown) {
+        let errorMessage;
+        if(e instanceof Error) {
+            try {
+                const parsed = JSON.parse(e.message);
+                errorMessage = Array.isArray(parsed)
+                    ? parsed.map(err => ({ ...err, message: err.message.replace(/"/g, " ") }))
+                    : parsed;
+            } catch {
+                errorMessage = e.message;
+            }
+        } else {
+            errorMessage = "Unknown Error";
         }
-        else {
-            res.status(400).send("Unknown error");
+        res.status(400).send({ error:errorMessage });
+    }
+});
+
+// Nuevas rutas
+router.delete("/:id", async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        
+        if(isNaN(id))
+            return res.status(400).send({ error: "Invalid ID format" });
+
+        const deleted = await diaryServices.deleteEntry(id);
+
+        if(deleted)
+            return res.status(204).send();
+        else
+            return res.status(404).send({ error: "Entry Not Found" });
+    } catch (e: unknown) {
+        const errorMessage = e instanceof Error ? e.message : "Unknown Error";
+        return res.status(500).json({ error: errorMessage });
+    }
+});
+
+router.patch("/:id", async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        if(isNaN(id)) 
+            return res.status(400).send({ error:"Invalid ID" });
+        
+        // const fieldsToUpdate = partialDiaryEntrySchema.parse(req.body);
+        const validatedFields = partialDiaryEntrySchema.parse(req.body);
+
+        const fieldsToUpdate = Object.fromEntries(
+            Object.entries(validatedFields).filter(([_, value]) => value !== undefined),
+        );
+
+        const updated = await diaryServices.updateEntry(id, fieldsToUpdate);
+
+        if(updated){
+            return res.json(updated);
+        } else {
+            return res.status(404).send({ error: "Entry Not Found" });
         }
+    } catch {
+        return res.status(400).json({ error: "Update Failed" });
     }
 });
 
