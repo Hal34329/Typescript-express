@@ -45,6 +45,7 @@ pnpm seed
 - ``jiti``: Solo se usa por el ``eslint.config.ts``, si se pasa a ``.js`` no es necesario utilizarlo.
 - ``dotenv``: Se puede evitar usar ``dotenv`` para no usar dpendencias extra y sustituirlo por ``process.loadEnvFile()`` en el código o como flag ``--env-file=.env`` al ejecutar el script en versiones superiores a ``Node.js v24``.
 - **ValidatedFields:** El parseo del ``req.body`` con el ``partialDiaryEntrySchema`` puede pasarse a ``utils.ts`` para mayor separación de responsabilidades.
+- **Alias para** ``types.ts``**:** Añadí un alias para los tipos, ya que al importarlos podía hacerlo con ``import {...} from "./types.js"``, sin embargo, al importarlo en el ``schema.ts``, no lee el .js, tendría que ejecutarlo directo con tsx o quitar la extensión, lo cuál, por la configuración de ``tsconfig.json``, no era una solución adecuada, por lo que añadí "paths": ``{"@types": ["./src/types.ts"]}``, lo cuál me sirvió incluso para no tener que recordar la ruta exacta.
 
 ## Endpoints de la API
 |**Método**|**Ruta**|**Descripción**|**Body (JSON) / Notas**|
