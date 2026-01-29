@@ -47,6 +47,7 @@ pnpm seed
 - **ValidatedFields:** El parseo del ``req.body`` con el ``partialDiaryEntrySchema`` puede pasarse a ``utils.ts`` para mayor separación de responsabilidades.
 - **Alias para** ``types.ts``**:** Añadí un alias para los tipos, ya que al importarlos podía hacerlo con ``import {...} from "./types.js"``, sin embargo, al importarlo en el ``schema.ts``, no lee el .js, tendría que ejecutarlo directo con tsx o quitar la extensión, lo cuál, por la configuración de ``tsconfig.json``, no era una solución adecuada, por lo que añadí "paths": ``{"@types": ["./src/types.ts"]}``, lo cuál me sirvió incluso para no tener que recordar la ruta exacta.
 - ``types.ts``: Tenía 2 interfaces que eran más o menos redundantes, ya que ambos omitían la id, ``partialDiaryEntrySchema`` y ``newDiarySchema``. Se puede refactorizar para que ``newDiarySchema`` sea la fuente de la verdad de ``partialDiarySchema`` y tener un solo cambio en caso de necesitarlo.
+- **Refactorización de** ``types.js`` **a una única fuente de la verdad:** Para evitar redundancias y no duplicar los schemas, junté con ``drizzle-zod`` los schemas, revisar la rama ``refactor`` para el código con cambios.
 
 ## Endpoints de la API
 |**Método**|**Ruta**|**Descripción**|**Body (JSON) / Notas**|
